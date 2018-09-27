@@ -1258,6 +1258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameState: 0
+  mainCamera: {fileID: 0}
 --- !u!4 &2140784654
 Transform:
   m_ObjectHideFlags: 0

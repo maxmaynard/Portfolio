@@ -10,12 +10,15 @@ public class GameStateManager : MonoBehaviour {
     bool navMesh = false;
     GameState previousState;
     GameSetup setupObject;
+    [HideInInspector]
+    public Camera mainCamera;
 
     private void Awake()
     {
         gameState = GameState.Mapping;
         previousState = gameState;
         setupObject = GameObject.Find("MeshHolder").GetComponent<GameSetup>();
+        mainCamera = Camera.main;
     }
 
     // Use this for initialization

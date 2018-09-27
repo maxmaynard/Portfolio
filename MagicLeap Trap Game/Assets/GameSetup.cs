@@ -1,16 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(NavMeshSurface))]
 public class GameSetup : MonoBehaviour {
-
-	public void GenerateNavMesh()
+    GameStateManager gameManager;
+    private void Start()
     {
-        MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
-        CombineInstance[] combine = new CombineInstance[meshFilters.Length];
-        for(int i = 0; i < meshFilters.Length; i++)
+        gameManager = GameObject.Find("Manager").GetComponent<GameStateManager>();
+    }
+
+    public void GenerateNavMesh()
+    {
+        if (gameManager == null)
+            return;
+
+        List<MeshFilter> meshFilters = new List<MeshFilter>();
+        GetComponentsInChildren<MeshFilter>(false, meshFilters);
+        foreach(MeshFilter mesh in meshFilters)
+        {
+            if (mesh.transform.position.y >= gameManager.mainCamera.transform.position.y)
+            {
+                meshFilters.Remove(mesh);
+            }
+        }
+
+        CombineInstance[] combine = new CombineInstance[meshFilters.Count];
+        for (int i = 0; i < meshFilters.Count; i++)
         {
             combine[i].mesh = meshFilters[i].sharedMesh;
             combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
@@ -19,5 +38,7 @@ public class GameSetup : MonoBehaviour {
         transform.GetComponent<MeshFilter>().mesh = new Mesh();
         transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
         transform.gameObject.SetActive(true);
+
+        GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 }
