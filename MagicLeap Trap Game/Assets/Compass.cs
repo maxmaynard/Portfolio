@@ -31,7 +31,7 @@ namespace ML_Compass
         //points given compass at given target
         public void MLCompass(int compassID, int targetID)
         {
-            //determines direction vector based on rotation vector of the car relative to the camera
+            //determines direction vector based on rotation to target relative to camera
             compass3D.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width * .5f, Screen.height * .5f, 0.0f));
             compass3D.transform.LookAt(targetList[targetID].transform);
             compass3D.transform.Rotate(-mainCamera.transform.eulerAngles);
@@ -48,7 +48,7 @@ namespace ML_Compass
         //points given compass at given target
         public void MLCompass()
         {
-            //determines direction vector based on rotation vector of the car relative to the camera
+            //determines direction vector based on rotation to target relative to camera
             compass3D.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width * .5f, Screen.height * .5f, 0.0f));
             compass3D.transform.LookAt(target.transform);
             compass3D.transform.Rotate(-mainCamera.transform.eulerAngles);
